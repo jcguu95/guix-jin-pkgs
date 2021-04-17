@@ -19,6 +19,8 @@
 
 (define-module (jin packages ibus-chewing)
   #:use-module (guix build-system cmake)
+  #:use-module (guix build-system gnu)
+  #:use-module (guix download)
   #:use-module (guix git-download)
   #:use-module (guix licenses)
   #:use-module (guix packages)
@@ -37,6 +39,31 @@
   #:use-module (gnu packages xorg)
   )
 
+(define-public gob2
+  (package
+   (name "gob2")
+   (version "2.0.20")
+   (source
+    (origin
+     (method url-fetch)
+     (uri "http://ftp.5z.com/pub/gob/gob2-2.0.20.tar.xz")
+     (sha256 (base32 "09l0pr83vpl53hyl610qsrlsml2dribijik0b9pfk2m8gk089vpp"))
+     ))
+   (build-system gnu-build-system)
+   (inputs
+    `(("glib" ,glib)))
+   (native-inputs
+    `(("pkg-config" ,pkg-config)))
+   (home-page "https://www.jirka.org/gob.html")
+   (synopsis "GTK Object Builder (GOB) is a simple
+preprocessor for easily creating GTK objects.")
+   (description "GOB (GOB2 anyway) is a preprocessor for making
+GObjects with inline C code so that generated files are not
+edited. Syntax is inspired by Java and Yacc or Lex. The
+implementation is intentionally kept simple, and no C actual code
+parsing is done.")
+   (license gpl2))) ;; not sure
+
 (define-public ibus-chewing
   (package
    (name "ibus-chewing")
@@ -54,37 +81,26 @@
      (sha256 (base32 "06vmvkz7jvw2lf0q3qif9ava0kmsjc8jvhvf2ngp0l60b8bi5p03"))
      ;; (sha256 (base32 "1ygjygi4h8x94f6h6dm7gsxyshag1268ba5jr49q3mcwman270pn"))
      ))
-   ;; Above are done.
-
    ;; Official Installation Guide
    ;; https://github.com/definite/ibus-chewing/blob/e221ddd14dcfc922900db92fd6d9cca0e358a0f8/INSTALL
-   ;;
-   ;; Hint - Might need cmake-fedora. But how?
-   ;;
    (build-system cmake-build-system)
-   ;; (arguments '(#:configure-flags '("." "-DCMAKE_INSTALL_PREFIX='/usr'" "-DLIBEXEC_DIR='/usr/libexec'")))
    (arguments '(#:configure-flags '("." "-DLIBEXEC_DIR='/usr/libexec'")
                 #:parallel-build? #f)) ;; Don't really know what this means but it makes the log saner.:w
-   ;; (arguments (list #:configure-flags `("." (format #f "-DLIBEXEC_DIR='~a/libexec'" ,out))))
    (inputs
     `(
       ("glib" ,glib)
-      ;; ("gob" ,gob) ; have no idea.. or gob2? It seems that I should package this first. https://www.jirka.org/gob.html
-      ("gtk" ,gtk+-2)                   ; have no idea
+      ("gob" ,gob2)
+      ("gtk" ,gtk+-2)
       ("ibus" ,ibus)
       ("libnotify" ,libnotify)
       ("libchewing" ,libchewing)
       ("libX11" ,libx11)
       ))
    (native-inputs
-    `(
-      ;; ("cmake" ,cmake)
-      ;; ("extra-cmake-modules" ,extra-cmake-modules) ;; not sure if needed
-      ("gettext" ,gettext-minimal)
+    `(("gettext" ,gettext-minimal)
       ("pkg-config" ,pkg-config)
+      ("glib-bin" ,glib "bin")
       ))
-
-   ;; Below are done.
    (home-page "https://github.com/definite/ibus-chewing")
    (synopsis "Chewing Input Method Engine for IBus")
    (description "IBus-Chewing is an IBus front-end of Chewing,
