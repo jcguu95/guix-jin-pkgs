@@ -117,4 +117,10 @@ users.")
 
 ;; this is only for when I am building..
 ;; `guix build -f this-file.scm`
+;;
+;; possible resources
+;; 1. https://git.savannah.gnu.org/cgit/guix.git/tree/gnu/packages/ibus.scm
+;; 2. https://github.com/definite/ibus-chewing/blob/master/INSTALL
+;; 3. https://github.com/archlinux/svntogit-community/blob/packages/ibus-chewing/trunk/PKGBUILD#L38
+
 ibus-chewing
