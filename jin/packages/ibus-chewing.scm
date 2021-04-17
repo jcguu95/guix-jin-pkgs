@@ -74,12 +74,10 @@ parsing is done.")
      (uri (git-reference
            (url "https://github.com/definite/ibus-chewing")
            (commit version)
-           ;; (commit "8e17848d3fe3bd7de052a1c26b4161092ba1df9f")
            (recursive? #t) ;; Does this help fetch cmake-fedora from as a git submodule? And if yes, how would it help?
            ))
      (file-name (git-file-name name version))
      (sha256 (base32 "06vmvkz7jvw2lf0q3qif9ava0kmsjc8jvhvf2ngp0l60b8bi5p03"))
-     ;; (sha256 (base32 "1ygjygi4h8x94f6h6dm7gsxyshag1268ba5jr49q3mcwman270pn"))
      ))
    ;; Official Installation Guide
    ;; https://github.com/definite/ibus-chewing/blob/e221ddd14dcfc922900db92fd6d9cca0e358a0f8/INSTALL
@@ -95,12 +93,12 @@ parsing is done.")
       ("libnotify" ,libnotify)
       ("libchewing" ,libchewing)
       ("libX11" ,libx11)
-      ("gsettings-desktop-schemas" ,gsettings-desktop-schemas)
       ))
    (native-inputs
     `(("gettext" ,gettext-minimal)
       ("pkg-config" ,pkg-config)
       ("glib-bin" ,glib "bin")
+      ("gsettings-desktop-schemas" ,gsettings-desktop-schemas)
       ))
    (home-page "https://github.com/definite/ibus-chewing")
    (synopsis "Chewing Input Method Engine for IBus")
@@ -108,6 +106,9 @@ parsing is done.")
 an intelligent Chinese input method for Zhuyin (BoPoMoFo)
 users.")
    (license gpl3)))
+
+;; FIXME current crux
+;; Settings schema 'org.freedesktop.IBus.Chewing' is not installed
 
 
 ;; this is only for when I am building..
