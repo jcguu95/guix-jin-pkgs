@@ -1,11 +1,12 @@
+;; DONE
+
 (define-module (jin packages gob2)
   #:use-module (gnu packages glib)
   #:use-module (gnu packages pkg-config)
   #:use-module (guix build-system gnu)
   #:use-module (guix download)
   #:use-module (guix licenses)
-  #:use-module (guix packages)
-  )
+  #:use-module (guix packages))
 
 (define-public gob2
   (package

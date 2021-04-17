@@ -1,3 +1,5 @@
+;; Still trying to figure out..
+
 (define-module (jin packages ibus-chewing)
   #:use-module (guix build-system cmake)
   #:use-module (guix build-system gnu)
