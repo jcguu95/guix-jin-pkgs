@@ -43,7 +43,8 @@
      (method git-fetch)
      (uri (git-reference
            (url "https://github.com/definite/ibus-chewing")
-           (commit version)))
+           (commit version)
+           (recursive? #t)))            ;; ??
      (file-name (git-file-name name version))
      (sha256 (base32 "1ygjygi4h8x94f6h6dm7gsxyshag1268ba5jr49q3mcwman270pn"))))
    ;; Above are done.
@@ -81,3 +82,8 @@
 an intelligent Chinese input method for Zhuyin (BoPoMoFo)
 users.")
    (license gpl2)))
+
+
+;; this is only for when I am building..
+;; `guix build -f this-file.scm`
+ibus-chewing
