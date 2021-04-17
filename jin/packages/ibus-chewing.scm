@@ -27,10 +27,12 @@
   #:use-module (gnu packages cmake)
   #:use-module (gnu packages gnome)
   #:use-module (gnu packages glib)
+  #:use-module (gnu packages kde-frameworks)
   #:use-module (gnu packages ibus)
   #:use-module (gnu packages language)
   #:use-module (gnu packages pkg-config)
-  #:use-module (gnu packages video))
+  #:use-module (gnu packages video)
+  )
 
 (define-public ibus-chewing
   (package
@@ -44,15 +46,20 @@
            (commit version)))
      (file-name (git-file-name name version))
      (sha256 (base32 "1ygjygi4h8x94f6h6dm7gsxyshag1268ba5jr49q3mcwman270pn"))))
-
    ;; Above are done.
 
+   ;; Official Installation Guide
+   ;; https://github.com/definite/ibus-chewing/blob/e221ddd14dcfc922900db92fd6d9cca0e358a0f8/INSTALL
+   ;;
+   ;; Hint - Might need cmake-fedora. But how?
+   ;;
    (build-system cmake-build-system)
    ;; (arguments '(#:configure-flags '("." "-DCMAKE_INSTALL_PREFIX='/usr'" "-DLIBEXEC_DIR='/usr/libexec'")))
    (arguments '(#:configure-flags '("." "-DLIBEXEC_DIR='/usr/libexec'")))
    ;; (arguments (list #:configure-flags `("." (format #f "-DLIBEXEC_DIR='~a/libexec'" ,out))))
    (inputs
-    `(("glib" ,glib)
+    `(
+      ("glib" ,glib)
       ;; ("gob" ,gob) ; have no idea
       ;; ("gtk" ,gtk) ; have no idea
       ("ibus" ,ibus)
@@ -61,11 +68,13 @@
       ("libX11" ,libchewing)
       ))
    (native-inputs
-    `(("cmake" ,cmake-minimal)
-      ("pkg-config" ,pkg-config)))
+    `(
+      ;; ("cmake" ,cmake)
+      ;; ("extra-cmake-modules" ,extra-cmake-modules) ;; not sure if needed
+      ("pkg-config" ,pkg-config)
+      ))
 
    ;; Below are done.
-   ;;
    (home-page "https://github.com/definite/ibus-chewing")
    (synopsis "Chewing Input Method Engine for IBus")
    (description "IBus-Chewing is an IBus front-end of Chewing,
