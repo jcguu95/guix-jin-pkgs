@@ -27,26 +27,32 @@
   #:use-module (gnu packages cmake)
   #:use-module (gnu packages gnome)
   #:use-module (gnu packages glib)
+  #:use-module (gnu packages gtk)
   #:use-module (gnu packages kde-frameworks)
   #:use-module (gnu packages ibus)
   #:use-module (gnu packages language)
   #:use-module (gnu packages pkg-config)
   #:use-module (gnu packages video)
+  #:use-module (gnu packages xorg)
   )
 
 (define-public ibus-chewing
   (package
    (name "ibus-chewing")
-   (version "1.5.1")
+   (version "1.6.1")
    (source
     (origin
      (method git-fetch)
      (uri (git-reference
            (url "https://github.com/definite/ibus-chewing")
            (commit version)
-           (recursive? #t)))            ;; ??
+           ;; (commit "8e17848d3fe3bd7de052a1c26b4161092ba1df9f")
+           (recursive? #t) ;; Does this help fetch cmake-fedora from as a git submodule? And if yes, how would it help?
+           ))
      (file-name (git-file-name name version))
-     (sha256 (base32 "1ygjygi4h8x94f6h6dm7gsxyshag1268ba5jr49q3mcwman270pn"))))
+     (sha256 (base32 "06vmvkz7jvw2lf0q3qif9ava0kmsjc8jvhvf2ngp0l60b8bi5p03"))
+     ;; (sha256 (base32 "1ygjygi4h8x94f6h6dm7gsxyshag1268ba5jr49q3mcwman270pn"))
+     ))
    ;; Above are done.
 
    ;; Official Installation Guide
@@ -62,11 +68,11 @@
     `(
       ("glib" ,glib)
       ;; ("gob" ,gob) ; have no idea
-      ;; ("gtk" ,gtk) ; have no idea
+      ("gtk" ,gtk+-2) ; have no idea
       ("ibus" ,ibus)
       ("libnotify" ,libnotify)
       ("libchewing" ,libchewing)
-      ("libX11" ,libchewing)
+      ("libX11" ,libx11)
       ))
    (native-inputs
     `(
@@ -81,7 +87,7 @@
    (description "IBus-Chewing is an IBus front-end of Chewing,
 an intelligent Chinese input method for Zhuyin (BoPoMoFo)
 users.")
-   (license gpl2)))
+   (license gpl3)))
 
 
 ;; this is only for when I am building..
