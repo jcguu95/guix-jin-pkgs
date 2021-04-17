@@ -95,6 +95,7 @@ parsing is done.")
       ("libnotify" ,libnotify)
       ("libchewing" ,libchewing)
       ("libX11" ,libx11)
+      ("gsettings-desktop-schemas" ,gsettings-desktop-schemas)
       ))
    (native-inputs
     `(("gettext" ,gettext-minimal)
