@@ -25,6 +25,7 @@
   #:use-module (guix utils)
   #:use-module (gnu packages audio)
   #:use-module (gnu packages cmake)
+  #:use-module (gnu packages gettext)
   #:use-module (gnu packages gnome)
   #:use-module (gnu packages glib)
   #:use-module (gnu packages gtk)
@@ -62,13 +63,14 @@
    ;;
    (build-system cmake-build-system)
    ;; (arguments '(#:configure-flags '("." "-DCMAKE_INSTALL_PREFIX='/usr'" "-DLIBEXEC_DIR='/usr/libexec'")))
-   (arguments '(#:configure-flags '("." "-DLIBEXEC_DIR='/usr/libexec'")))
+   (arguments '(#:configure-flags '("." "-DLIBEXEC_DIR='/usr/libexec'")
+                #:parallel-build? #f)) ;; Don't really know what this means but it makes the log saner.:w
    ;; (arguments (list #:configure-flags `("." (format #f "-DLIBEXEC_DIR='~a/libexec'" ,out))))
    (inputs
     `(
       ("glib" ,glib)
-      ;; ("gob" ,gob) ; have no idea
-      ("gtk" ,gtk+-2) ; have no idea
+      ;; ("gob" ,gob) ; have no idea.. or gob2? It seems that I should package this first. https://www.jirka.org/gob.html
+      ("gtk" ,gtk+-2)                   ; have no idea
       ("ibus" ,ibus)
       ("libnotify" ,libnotify)
       ("libchewing" ,libchewing)
@@ -78,6 +80,7 @@
     `(
       ;; ("cmake" ,cmake)
       ;; ("extra-cmake-modules" ,extra-cmake-modules) ;; not sure if needed
+      ("gettext" ,gettext-minimal)
       ("pkg-config" ,pkg-config)
       ))
 
