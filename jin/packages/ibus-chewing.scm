@@ -66,8 +66,12 @@ parsing is done.")
    ;; Official Installation Guide
    ;; https://github.com/definite/ibus-chewing/blob/e221ddd14dcfc922900db92fd6d9cca0e358a0f8/INSTALL
    (build-system cmake-build-system)
-   (arguments '(#:configure-flags '("." "-DLIBEXEC_DIR='/usr/libexec'")
-                #:parallel-build? #f)) ;; Don't really know what this means but it makes the log saner.:w
+   (arguments '(
+                ;; #:configure-flags '("." "-DLIBEXEC_DIR='/usr/libexec'")
+                #:configure-flags (list (string-append "-DLIBEXEC_DIR=" (assoc-ref %outputs "out") "/libexec")) ; thanks nckx! this works better
+                #:parallel-build? #f
+                ;; #:tests? #f ;; temporary hack, just to see more useful feedbacks
+                )) ;; Don't really know what this means but it makes the log saner.:w
    (inputs
     `(
       ("glib" ,glib)
