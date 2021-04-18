@@ -66,12 +66,24 @@ parsing is done.")
    ;; Official Installation Guide
    ;; https://github.com/definite/ibus-chewing/blob/e221ddd14dcfc922900db92fd6d9cca0e358a0f8/INSTALL
    (build-system cmake-build-system)
-   (arguments '(
-                ;; #:configure-flags '("." "-DLIBEXEC_DIR='/usr/libexec'")
-                #:configure-flags (list (string-append "-DLIBEXEC_DIR=" (assoc-ref %outputs "out") "/libexec")) ; thanks nckx! this works better
-                #:parallel-build? #f
-                ;; #:tests? #f ;; temporary hack, just to see more useful feedbacks
-                )) ;; Don't really know what this means but it makes the log saner.:w
+   (arguments
+    '(#:configure-flags
+      (list (string-append "-DLIBEXEC_DIR=" (assoc-ref %outputs "out") "/libexec")) ; thanks nckx! this works better
+      #:parallel-build? #f ;; Don't really know what this means but it makes the log saner.:w
+      #:tests? #f ;; temporary hack, just to see more useful feedbacks.
+      ;; nckx's attempted. didn't work (yet?)
+      ;; #:phases
+      ;; (modify-phases
+      ;;  %standard-phases
+      ;;  (add-after 'install 'wrap
+      ;;             (lambda* (#:key outputs #:allow-other-keys)
+      ;;               (let* ((out (assoc-ref outputs "out"))
+      ;;                      (libexec (string-append out "/libexec")))
+      ;;                 (for-each (lambda (file)
+      ;;                             (wrap-program file
+      ;;                                           `("GI_TYPELIB_PATH" = (,(getenv "GI_TYPELIB_PATH")))))
+      ;;                           (find-files libexec "."))))))
+      ))
    (inputs
     `(
       ("glib" ,glib)
